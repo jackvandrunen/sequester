@@ -5,26 +5,26 @@
 ## Written by Jack VanDrunen and distributed under the terms of the ISC license.
 
 
-proc asString*(s: openarray[char]): string =
+proc asString*(s: openarray[char]): string {.noSideEffect, procvar.} =
     ## Convert a sequence to a string.
     result = newString(s.len)
     for i, chr in s:
         result[i] = chr
 
 
-proc asString*(s: openarray[uint8]): string =
+proc asString*(s: openarray[uint8]): string {.noSideEffect, procvar.} =
     result = newString(s.len)
     for i, chr in s:
         result[i] = char(chr)
 
 
-proc asString*(s: openarray[int]): string =
+proc asString*(s: openarray[int]): string {.noSideEffect, procvar.} =
     result = newString(s.len)
     for i, chr in s:
         result[i] = char(chr)
 
 
-proc explode*(s: string, delimiter = ""): seq[string] =
+proc explode*(s: string, delimiter = ""): seq[string] {.noSideEffect, procvar.} =
     ## Split a string at non-overlapping occurrences of the given delimiter.
     if delimiter.len == 0:
         result = newSeq[string](s.len)
@@ -48,7 +48,7 @@ proc explode*(s: string, delimiter = ""): seq[string] =
         result.add(asString(buffer))
 
 
-proc implode*(s: openarray[string], separator = ""): string =
+proc implode*(s: openarray[string], separator = ""): string {.noSideEffect, procvar.} =
     ## Join a sequence, inserting the given separator in between substrings.
     var buffer: seq[char] = @[]
     var size = s.len - 1

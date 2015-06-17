@@ -14,12 +14,14 @@ sequester.nim`, or found at
 
 The following procedures are exported:
 
-    proc asString*(s: openarray[char]): string
+    proc asString*(s: openarray[char]): string {.noSideEffect, procvar.}
 
-    proc asString*(s: openarray[uint8]): string
+    proc asString*(s: openarray[uint8]): string {.noSideEffect, procvar.}
 
-    proc asString*(s: openarray[int]): string
+    proc asString*(s: openarray[int]): string {.noSideEffect, procvar.}
 
-    proc explode*(s: string; delimiter = ""): seq[string]
+    proc explode*(s: string; delimiter = ""): seq[string] {.noSideEffect,
+        procvar.}
 
-    proc implode*(s: openarray[string]; separator = ""): string
+    proc implode*(s: openarray[string]; separator = ""): string {.noSideEffect,
+        procvar.}
