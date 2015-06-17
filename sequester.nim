@@ -1,72 +1,61 @@
-proc seqToString(s: openarray[char]): string =
+## Library for the Nim language that contains procedures to convert between
+## sequences and strings. Additionally includes PHP-inspired ``explode``
+## and ``implode`` procedures.
+##
+## Written by Jack VanDrunen and distributed under the terms of the ISC license.
+
+
+proc asString*(s: openarray[char]): string =
+    ## Convert a sequence to a string.
     result = newString(s.len)
     for i, chr in s:
         result[i] = chr
 
 
-proc seqToString(s: openarray[uint8]): string =
+proc asString*(s: openarray[uint8]): string =
     result = newString(s.len)
     for i, chr in s:
         result[i] = char(chr)
 
 
-proc seqToString(s: openarray[int]): string =
+proc asString*(s: openarray[int]): string =
     result = newString(s.len)
     for i, chr in s:
         result[i] = char(chr)
 
 
-proc seqToString(s: openarray[int8]): string =
-    result = newString(s.len)
-    for i, chr in s:
-        result[i] = char(chr)
-
-
-proc seqToString(s: openarray[string]): string =
-    result = newString(s.len)
-    for i, chr in s:
-        result[i] = chr[0]
-
-
-proc stringToIntSeq(s: string): seq[int] =
-    result = newSeq[int](s.len)
-    for i, chr in s:
-        result[i] = int(chr)
-
-
-proc explode(s: string): seq[string] =
-    result = newSeq[string](s.len)
-    for i, chr in s:
-        result[i] = newString(1)
-        result[i][0] = chr
-
-
-proc explode(s, delimiter: string): seq[string] =
+proc explode*(s: string, delimiter = ""): seq[string] =
+    ## Split a string at non-overlapping occurrences of the given delimiter.
     if delimiter.len == 0:
-        return explode(s)
-    result = @[]
-    var buffer: seq[char] = @[]
-    var look = delimiter.len - 1
-    var skip = 0
-    for i, chr in s:
-        if skip > 0:
-            skip -= 1
-        elif s.substr(i, i + look) == delimiter:
-            result.add(seqToString(buffer))
-            buffer = @[]
-            skip = look
-        else:
-            buffer.add(chr)
-    result.add(seqToString(buffer))
+        result = newSeq[string](s.len)
+        for i, chr in s:
+            result[i] = newString(1)
+            result[i][0] = chr
+    else:
+        result = @[]
+        var buffer: seq[char] = @[]
+        var look = delimiter.len - 1
+        var skip = 0
+        for i, chr in s:
+            if skip > 0:
+                skip -= 1
+            elif s.substr(i, i + look) == delimiter:
+                result.add(asString(buffer))
+                buffer = @[]
+                skip = look
+            else:
+                buffer.add(chr)
+        result.add(asString(buffer))
 
 
-proc implode(s: seq[string], delimiter = ""): string =
+proc implode*(s: openarray[string], separator = ""): string =
+    ## Join a sequence, inserting the given separator in between substrings.
     var buffer: seq[char] = @[]
     var size = s.len - 1
     for i, sub in s:
         for chr in sub:
             buffer.add(chr)
         if i < size:
-            for chr in delimiter:
+            for chr in separator:
                 buffer.add(chr)
-    return seqToString(buffer)
+    return asString(buffer)
