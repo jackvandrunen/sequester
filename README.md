@@ -20,8 +20,14 @@ The following procedures are exported:
 
     proc asString*(s: openarray[int]): string {.noSideEffect, procvar.}
 
+    proc asString*(s: openarray[int8]): string {.noSideEffect, procvar.}
+
+    proc asIntSeq*(s: string): seq[int] {.noSideEffect, procvar.}
+
     proc explode*(s: string; delimiter = ""): seq[string] {.noSideEffect,
         procvar.}
 
     proc implode*(s: openarray[string]; separator = ""): string {.noSideEffect,
         procvar.}
+
+    iterator intItems*(s: string): int {.noSideEffect.}

@@ -24,11 +24,23 @@ proc asString*(s: openarray[int]): string {.noSideEffect, procvar.} =
         result[i] = char(chr)
 
 
+proc asString*(s: openarray[int8]): string {.noSideEffect, procvar.} =
+    result = newString(s.len)
+    for i, chr in s:
+        result[i] = char(chr)
+
+
 proc asIntSeq*(s: string): seq[int] {.noSideEffect, procvar.} =
     ## Convert a string into an array of integers.
     result = newSeq[int](s.len)
     for i, chr in s:
         result[i] = int(chr)
+
+
+iterator intItems*(s: string): int {.noSideEffect.} =
+    ## Iterate over a string, yielding integer values for the chars.
+    for chr in s:
+        yield int(chr)
 
 
 proc explode*(s: string, delimiter = ""): seq[string] {.noSideEffect, procvar.} =
@@ -45,7 +57,7 @@ proc explode*(s: string, delimiter = ""): seq[string] {.noSideEffect, procvar.} 
         var skip = 0
         for i, chr in s:
             if skip > 0:
-                skip -= 1
+                dec skip
             elif s.substr(i, i + look) == delimiter:
                 result.add(asString(buffer))
                 buffer = @[]
