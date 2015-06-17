@@ -24,6 +24,13 @@ proc asString*(s: openarray[int]): string {.noSideEffect, procvar.} =
         result[i] = char(chr)
 
 
+proc asIntSeq*(s: string): seq[int] {.noSideEffect, procvar.} =
+    ## Convert a string into an array of integers.
+    result = newSeq[int](s.len)
+    for i, chr in s:
+        result[i] = int(chr)
+
+
 proc explode*(s: string, delimiter = ""): seq[string] {.noSideEffect, procvar.} =
     ## Split a string at non-overlapping occurrences of the given delimiter.
     if delimiter.len == 0:
