@@ -1,5 +1,5 @@
-## Library for the Nim language that contains procedures to convert between
-## sequences and strings. Additionally includes PHP-inspired ``explode``
+## Lightweight library for the Nim language that contains procedures to convert
+## between sequences and strings. Additionally includes PHP-inspired ``explode``
 ## and ``implode`` procedures.
 ##
 ## Written by Jack VanDrunen and distributed under the terms of the ISC license.
